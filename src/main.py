@@ -35,3 +35,36 @@ class MyApp(App):
 
 if __name__ == '__main__':
     MyApp().run()
+from kivy.app import App
+from kivy.uix.screenmanager import ScreenManager, Screen
+
+# Define different Screens
+class HomeScreen(Screen):
+    pass
+
+class SettingsScreen(Screen):
+    pass
+
+# Create the screen manager
+class MyApp(App):
+    def build(self):
+        sm = ScreenManager()
+        sm.add_widget(HomeScreen(name='home'))
+        sm.add_widget(SettingsScreen(name='settings'))
+        
+        return sm
+
+if __name__ == '__main__':
+    MyApp().run()
+from kivy.uix.button import Button
+
+class HomeScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        btn = Button(text='Go to Settings')
+        btn.bind(on_press=self.go_to_settings)
+        self.add_widget(btn)
+    
+    def go_to_settings(self, instance):
+        self.manager.transition.direction = 'left'
+        self.manager.current = 'settings'
